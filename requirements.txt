@@ -17,6 +17,7 @@ fpdf==1.7.2
 gast==0.5.4
 google-pasta==0.2.0
 grpcio==1.62.1
+gunicorn==23.0.0
 h5py==3.10.0
 idna==3.6
 itsdangerous==2.2.0
