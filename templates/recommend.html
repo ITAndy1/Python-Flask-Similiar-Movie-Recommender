@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Recommendations</title>
+    <style>
+        body {
+            background-image: url('/static/movie_collage.png'); /* Path to the background image */
+            background-size: cover; /* Make the background cover the entire page */
+            background-repeat: no-repeat; /* Prevent the background from repeating */
+            background-attachment: fixed; /* Fix the background image in place */
+            color: white; /* Text color for visibility */
+            font-family: Arial, sans-serif;
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            height: 100vh; /* Full viewport height */
+            display: flex; /* Flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+
+        .form-container {
+            text-align: center; /* Center text inside the form */
+            background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent background for better readability */
+            padding: 40px; /* Padding around the form */
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        input[type="submit"] {
+            padding: 12px 24px; /* Increased padding */
+            background-color: #ff5733;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px; /* Increased font size */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #e04e1f;
+        }
+
+        h1 {
+            margin-bottom: 30px; /* Space below heading */
+            font-size: 36px; /* Increased font size */
+        }
+
+        .recommendations {
+            margin-top: 20px; /* Space above recommendations */
+            font-size: 20px; /* Larger font size for readability */
+            text-align: left; /* Align text to the left */
+            line-height: 1.6; /* Improve readability with line height */
+        }
+
+        .recommendations ul {
+            list-style-type: none; /* Remove bullet points */
+            padding: 0; /* Remove padding */
+        }
+
+        .recommendations li {
+            margin-bottom: 10px; /* Space between each recommendation */
+            padding: 10px; /* Padding around each list item */
+            background-color: rgba(255, 255, 255, 0.1); /* Slight background color for visibility */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .recommendations a {
+            color: #ffa500; /* Set hyperlink color to orange */
+            text-decoration: none; /* Remove underline from hyperlinks */
+        }
+
+        .recommendations a:hover {
+            text-decoration: underline; /* Add underline on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Recommendations for {{ selected_movie }}</h1>
+        <div class="recommendations">
+            <ul>
+                {% for movie, link in recommendations %}
+                    <li>
+                        {% if link %}
+                            <a href="{{ link }}" target="_blank">{{ movie }}</a>
+                        {% else %}
+                            {{ movie }} (No Wikipedia page found)
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <form action="/" method="get">
+            <input type="submit" value="Back to Search">
+        </form>
+    </div>
+</body>
+</html>

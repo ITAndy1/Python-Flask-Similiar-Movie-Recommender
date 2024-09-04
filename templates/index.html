@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Recommender System</title>
+    <style>
+        body {
+            background-image: url('/static/movie_collage.png'); /* Path to the background image */
+            background-size: cover; /* Make the background cover the entire page */
+            background-repeat: no-repeat; /* Prevent the background from repeating */
+            background-attachment: fixed; /* Fix the background image in place */
+            color: white; /* Text color for visibility */
+            font-family: Arial, sans-serif;
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            height: 100vh; /* Full viewport height */
+            display: flex; /* Flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+
+        .form-container {
+            text-align: center; /* Center text inside the form */
+            background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent background for better readability */
+            padding: 40px; /* Padding around the form */
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+            width: 100%; /* Full width to center-align */
+        }
+
+        .dropdown-list {
+            display: none;
+            position: absolute;
+            background-color: #ffffff; /* Light background for dropdown */
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 1;
+            border: 1px solid #ddd;
+            width: 100%; /* Match the width of the input field */
+            box-sizing: border-box; /* Include padding and border in width calculation */
+        }
+
+        .dropdown-list div {
+            padding: 10px;
+            cursor: pointer;
+            color: black; /* Black font color for dropdown options */
+            font-size: 18px; /* Increase font size */
+        }
+
+        .dropdown-list div:hover {
+            background-color: #f0f0f0; /* Light grey background on hover */
+        }
+
+        input[type="text"] {
+            padding: 12px; /* Increased padding */
+            width: 300px; /* Fixed width */
+            font-size: 18px; /* Increased font size */
+            margin-bottom: 20px; /* Space between input and button */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            box-sizing: border-box; /* Include padding and border in width calculation */
+        }
+
+        input[type="submit"] {
+            padding: 12px 24px; /* Increased padding */
+            background-color: #ff5733;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px; /* Increased font size */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #e04e1f;
+        }
+
+        h1 {
+            margin-bottom: 30px; /* Space below heading */
+            font-size: 36px; /* Increased font size */
+        }
+    </style>
+    <script>
+        function filterMovies() {
+            const input = document.getElementById('movie-input');
+            const filter = input.value.toLowerCase();
+            const dropdown = document.getElementById('movie-dropdown');
+            const items = dropdown.getElementsByTagName('div');
+
+            dropdown.style.display = 'block'; // Show dropdown
+
+            for (let i = 0; i < items.length; i++) {
+                const textValue = items[i].textContent || items[i].innerText;
+                if (textValue.toLowerCase().indexOf(filter) > -1) {
+                    items[i].style.display = "";
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
+        }
+
+        function selectMovie(movieName) {
+            document.getElementById('movie-input').value = movieName; // Set input value
+            document.getElementById('movie-dropdown').style.display = 'none'; // Hide dropdown
+        }
+    </script>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Movie Recommender System</h1>
+        <form action="/recommend" method="POST">
+            <div class="dropdown-container">
+                <input type="text" id="movie-input" name="movie" placeholder="Search for a movie..." onkeyup="filterMovies()">
+                <div id="movie-dropdown" class="dropdown-list">
+                    {% for movie in movies %}
+                        <div onclick="selectMovie('{{ movie }}')">{{ movie }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <input type="submit" value="Get Recommendations">
+        </form>
+    </div>
+</body>
+</html>
